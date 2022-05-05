@@ -1,12 +1,12 @@
-import Nav from "../component/Nav"
+import Layout from "../components/Layout";
 
 function Home() {
+  
   return (
-    <div>
-        <Nav />
-        Un dia más dasfd
-    </div>
-  )
+    <Layout>
+      Yeah buddy!
+    </Layout>
+  );
 }
 
 export default Home

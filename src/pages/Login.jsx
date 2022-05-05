@@ -1,28 +1,25 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import { green } from '@mui/material/colors';
-import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import { green } from '@mui/material/colors'
+import Box from '@mui/material/Box'
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Vic from './../images/vic.jpeg'
 
-import Copyright from '../component/Copyright'
+import Copyright from '../components/Copyright'
+
+import useLogin from '../hooks/useLogin'
 
 function Login() {
+  const { login, isPending, error } = useLogin()
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
+    login(data.get('email'), data.get('password'))
   }
 
   return (
@@ -43,7 +40,7 @@ function Login() {
             component="h1"
             align="center"
             variant="h5">
-            Bienvenido a Vic App de <br /><b>Victor Serrano</b>
+            Bienvenido a VicFit de <br /><b>Victor Serrano</b>
           </Typography>
           <Avatar
             alt="Victor Serrano Trainer"
@@ -92,6 +89,7 @@ function Login() {
             >
               Ingresar
             </Button>
+            {error && <p>Error: {error}</p>}
             {/* <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
