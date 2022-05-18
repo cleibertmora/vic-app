@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -27,7 +28,11 @@ function ClientCard({ cliente }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Revisar Ficha</Button>
+          <Link 
+            style={{ textDecoration: "none" }}
+            to={`/cliente/${cliente.id}`}>
+            <Button size="small">Revisar Ficha</Button>
+          </Link>
         </CardActions>
       </Card>
     </Box>

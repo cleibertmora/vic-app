@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import { useAuthContext } from './hooks/useAuthContext'
 import Login from './pages/Login'
 import Home from './pages/Home'
+import ClienteFicha from './pages/ClienteFicha'
 import Page404 from './pages/Page404'
 
 function App() {
@@ -18,11 +19,17 @@ function App() {
                 <Navigate to="/login" /> 
               }/>
             <Route 
+              path="/cliente/:clienteID"
+              element={user ?
+                <ClienteFicha /> :
+                <Navigate to="/login" />
+              }/>
+            <Route 
               path="/login"
               element={user ?
                 <Navigate to="/" /> :
                 <Login />
-              }/>
+            }/>
             <Route
                 path="*"
                 element={<Page404 />} 
