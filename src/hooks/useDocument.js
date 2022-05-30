@@ -1,25 +1,44 @@
 import { useEffect, useState } from 'react'
 import { db } from '../firebase/config'
-import { doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, updateDoc } from "firebase/firestore"
 
 export const useDocument = (collectionName, docId) => {
-    const [document, setDocument] = useState(null)
+    const [docInfo, setDocInfo] = useState(null)
     const [error, setError] = useState(null)
     const [isCancelled, setIsCancelled] = useState(false)
+    
+    const handleQuery = async () => {
+        const docRef = doc(db, collectionName, docId)
 
-    useEffect(() => {
-        const docRef = doc(db, collectionName, docId);
-        
         try {
-            const docInfo = await getDoc(docRef);
-            setDocument({...docInfo.data(), id: docInfo.id})
+            const res = await getDoc(docRef)
+            setDocInfo({...res.data(), id: res.id})
         } catch (error) {
             console.log(error)
             setError('could not fetch the doc')
         }
+    }
 
-        return () => setIsCancelled(true)
+    const updateDocInfo = async (payload) => {
+        const docRef = doc(db, collectionName, docId)
+        
+        try {
+            await updateDoc(docRef, payload)
+            setError(null)
+        } catch (error) {
+            console.log(error)
+            setError('could not update the doc')
+        }
+    }
+
+    useEffect(() => {
+        handleQuery()
+
+        return () => {
+            setIsCancelled(true)
+            setDocInfo(null)
+        }
     }, [collectionName, docId])
 
-    return { document, error, isCancelled }
+    return { docInfo, error, isCancelled, updateDocInfo }
 }
